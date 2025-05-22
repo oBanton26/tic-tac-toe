@@ -83,6 +83,27 @@ function createGame (player1, player2) {
 };
 
 
+const displayController = (function () {
+    const gameboardDiv = document.querySelector(".gameboard");
+    const showGameboard = () => {
+        cleanGameboard();
+        const currentBoard = gameboard.show();
+        for (let cell of currentBoard) {
+            const cellToDisplay = document.createElement("div");
+            cellToDisplay.setAttribute("class", "gameboard-cell");
+            cellToDisplay.textContent = cell;
+            gameboardDiv.appendChild(cellToDisplay);
+        }
+    };
+
+    const cleanGameboard = () => {
+        gameboardDiv.textContent = "";
+    }
+
+    return {showGameboard, cleanGameboard}
+})();
+
+
 const me = createPlayer("Ulysse", "O");
 const ai = createPlayer("AI", "X");
 const game = createGame(me, ai);
