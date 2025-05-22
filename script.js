@@ -1,7 +1,7 @@
 const gameboard = (function(){
     let gameboardArray = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     const addPlay = function (player, playPosition) {
-        gameboardArray[playPosition] = player.name;
+        gameboardArray[playPosition] = player.getToken();
     };
     const show = function() {return gameboardArray};
     const clean = function () { gameboardArray = [0, 1, 2, 3, 4, 5, 6, 7, 8]};
@@ -10,11 +10,12 @@ const gameboard = (function(){
 })();
 
 
-function createPlayer (name) {
+function createPlayer (name, token) {
     let score = 0;
     const addWin = function (){score++};
     const getScore = ()=> {return score};
-    return {name, addWin, getScore};
+    const getToken = () => {return token};
+    return {name, addWin, getScore, getToken};
 };
 
 function createGame (player1, player2) {
@@ -28,7 +29,7 @@ function createGame (player1, player2) {
     };
 
     const playRound = (playPosition) => {
-        if (gameboard.getStateAt(playPosition) !== players[0].name && gameboard.getStateAt(playPosition) !== players[1].name) {
+        if (gameboard.getStateAt(playPosition) !== players[0].getToken() && gameboard.getStateAt(playPosition) !== players[1].getToken()) {
             gameboard.addPlay(activePlayer, playPosition);
 
             if (checkForWin()) {
@@ -38,7 +39,7 @@ function createGame (player1, player2) {
                 switchPlayerTurn();
             } else {
                 switchPlayerTurn();
-                console.log(`${activePlayer.name} is the next player to play the next play...`)
+                console.log(`${activePlayer.name} is next to play`)
             };
         } else {
             console.log("Hey that spot is taken friend");
