@@ -26,6 +26,7 @@ function createGame (player1, player2) {
 
     const switchPlayerTurn = () => {
         activePlayer = (activePlayer === players[0])? players[1] : players[0];
+        console.log(`${activePlayer.name} is next to play`)
     };
 
     const playRound = (playPosition) => {
@@ -37,15 +38,16 @@ function createGame (player1, player2) {
                 gameboard.clean();
                 console.log(`Oh my god, ${activePlayer.name} has won this round !!!!`);
                 switchPlayerTurn();
+            } else if (checkForTie()) {
+                console.log("Well it's a tie I guess");
+                gameboard.clean();
+                switchPlayerTurn();
             } else {
                 switchPlayerTurn();
-                console.log(`${activePlayer.name} is next to play`)
             };
         } else {
             console.log("Hey that spot is taken friend");
         }
-        
-        
     };
 
     const checkForWin = () => {
@@ -67,10 +69,20 @@ function createGame (player1, player2) {
         }
     };
 
-    return {getActivePlayer, switchPlayerTurn, playRound, checkForWin}
+    const checkForTie = () => {
+        const currentBoard = gameboard.show();
+        for (let cell of currentBoard) {
+            if (typeof(cell) === "number") {
+                return false;
+            };
+        };
+        return true;
+    };
+
+    return {getActivePlayer, switchPlayerTurn, playRound, checkForWin, checkForTie}
 };
 
 
-const me = createPlayer("Ulysse");
-const ai = createPlayer("AI");
+const me = createPlayer("Ulysse", "O");
+const ai = createPlayer("AI", "X");
 const game = createGame(me, ai);
