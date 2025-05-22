@@ -35,8 +35,8 @@ function createGame (player1, player2) {
 
             if (checkForWin()) {
                 activePlayer.addWin();
-                gameboard.clean();
                 console.log(`Oh my god, ${activePlayer.name} has won this round !!!!`);
+                displayController.setWinnerState();
                 switchPlayerTurn();
             } else if (checkForTie()) {
                 console.log("Well it's a tie I guess");
@@ -49,6 +49,7 @@ function createGame (player1, player2) {
             console.log("Hey that spot is taken friend");
         }
     };
+
 
     const checkForWin = () => {
         const currentBoard = gameboard.show();
@@ -89,18 +90,33 @@ const displayController = (function () {
         cleanGameboard();
         const currentBoard = gameboard.show();
         for (let cell of currentBoard) {
-            const cellToDisplay = document.createElement("div");
+            const cellToDisplay = document.createElement("button");
             cellToDisplay.setAttribute("class", "gameboard-cell");
-            cellToDisplay.textContent = cell;
+            if (typeof(cell) !== "number") {
+                cellToDisplay.textContent = cell;
+            };
+            cellToDisplay.addEventListener("click", ()=>{
+                game.playRound(cell);
+                showGameboard();
+            })
             gameboardDiv.appendChild(cellToDisplay);
-        }
+        };
     };
 
     const cleanGameboard = () => {
         gameboardDiv.textContent = "";
     }
 
-    return {showGameboard, cleanGameboard}
+    const setWinnerState = () => {
+        gameboardDiv.setAttribute("class", "gameboard winner-state")
+    }
+
+    const removeWinnerState = () => {
+        gameboardDiv.setAttribute("class", "gameboard")
+    }
+
+
+    return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState, freeze};
 })();
 
 

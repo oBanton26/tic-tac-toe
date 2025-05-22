@@ -12,6 +12,11 @@
     grid: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 5px;
     place-items: center;
+    background-color: grey;
+}
+
+.gameboard.winner-state {
+    background-color: red;
 }
 
 .gameboard-cell {
@@ -19,4 +24,15 @@
     height: 100%;
     font-size: 3rem;
     text-align: center;
+    background-color: wheat;
+    appearance: none;
+    border: none;
+}
+
+.gameboard-cell:hover {
+    background-color: rgb(227, 205, 165);
+}
+
+.gameboard-cell:active {
+    background-color: rgb(196, 177, 141);
 }
