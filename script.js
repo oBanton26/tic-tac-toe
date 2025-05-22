@@ -50,6 +50,9 @@ function createGame (player1, player2) {
         }
     };
 
+    const startRound = () => {
+        displayController.showGameboard()
+    };
 
     const checkForWin = () => {
         const currentBoard = gameboard.show();
@@ -80,7 +83,7 @@ function createGame (player1, player2) {
         return true;
     };
 
-    return {getActivePlayer, switchPlayerTurn, play, checkForWin, checkForTie}
+    return {getActivePlayer, switchPlayerTurn, play, checkForWin, checkForTie, startRound}
 };
 
 
@@ -95,26 +98,25 @@ const displayController = (function () {
             if (typeof(cell) !== "number") {
                 cellToDisplay.textContent = cell;
             };
-            cellToDisplay.addEventListener("click", ()=>{
+            cellToDisplay.addEventListener("click", () =>{
                 game.play(cell);
                 showGameboard();
-            })
+            });
             gameboardDiv.appendChild(cellToDisplay);
         };
     };
 
     const cleanGameboard = () => {
         gameboardDiv.textContent = "";
-    }
+    };
 
     const setWinnerState = () => {
         gameboardDiv.setAttribute("class", "gameboard winner-state")
-    }
+    };
 
     const removeWinnerState = () => {
         gameboardDiv.setAttribute("class", "gameboard")
-    }
-
+    };
 
     return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState};
 })();
