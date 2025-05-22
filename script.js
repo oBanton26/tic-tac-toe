@@ -29,7 +29,7 @@ function createGame (player1, player2) {
         console.log(`${activePlayer.name} is next to play`)
     };
 
-    const playRound = (playPosition) => {
+    const play = (playPosition) => {
         if (gameboard.getStateAt(playPosition) !== players[0].getToken() && gameboard.getStateAt(playPosition) !== players[1].getToken()) {
             gameboard.addPlay(activePlayer, playPosition);
 
@@ -80,7 +80,7 @@ function createGame (player1, player2) {
         return true;
     };
 
-    return {getActivePlayer, switchPlayerTurn, playRound, checkForWin, checkForTie}
+    return {getActivePlayer, switchPlayerTurn, play, checkForWin, checkForTie}
 };
 
 
@@ -96,7 +96,7 @@ const displayController = (function () {
                 cellToDisplay.textContent = cell;
             };
             cellToDisplay.addEventListener("click", ()=>{
-                game.playRound(cell);
+                game.play(cell);
                 showGameboard();
             })
             gameboardDiv.appendChild(cellToDisplay);
@@ -116,7 +116,7 @@ const displayController = (function () {
     }
 
 
-    return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState, freeze};
+    return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState};
 })();
 
 
