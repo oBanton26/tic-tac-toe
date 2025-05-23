@@ -156,7 +156,20 @@ const displayController = (function () {
         scoreDiv.setAttribute("class", "player-one-score");
         scoreDiv.textContent = "Score = 0";
         playerOneTitle.after(scoreDiv);
-    })
+    });
+
+    formTwo.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formTwoData = new FormData(e.target);
+        const playerTwoName = formTwoData.get("player-two-name");
+        const playerTwoTitle = document.querySelector(".player-two h2");
+        playerTwoTitle.textContent = playerTwoName;
+        playerTwoContainer.removeChild(formTwo);
+        const scoreDiv = document.createElement("div");
+        scoreDiv.setAttribute("class", "player-two-score");
+        scoreDiv.textContent = "Score = 0";
+        playerTwoTitle.after(scoreDiv);
+    });
 
     return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState};
 })();
