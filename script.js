@@ -54,6 +54,7 @@ function createGame (player1, player2) {
 
     const startRound = () => {
         gameboard.clean();
+        displayController.removeWinnerState();
         inARound = true;
         displayController.showGameboard()
     };
