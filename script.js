@@ -139,6 +139,25 @@ const displayController = (function () {
         gameboardDiv.setAttribute("class", "gameboard")
     };
 
+
+    const playerOneContainer = document.querySelector(".player-one");
+    const playerTwoContainer = document.querySelector(".player-two");
+    const formOne = document.querySelector(".player-one form");
+    const formTwo = document.querySelector(".player-two form");
+
+    formOne.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formOneData = new FormData(e.target);
+        const playerOneName = formOneData.get("player-one-name");
+        const playerOneTitle = document.querySelector(".player-one h2");
+        playerOneTitle.textContent = playerOneName;
+        playerOneContainer.removeChild(formOne);
+        const scoreDiv = document.createElement("div");
+        scoreDiv.setAttribute("class", "player-one-score");
+        scoreDiv.textContent = "Score = 0";
+        playerOneTitle.after(scoreDiv);
+    })
+
     return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState};
 })();
 
