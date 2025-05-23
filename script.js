@@ -38,6 +38,7 @@ function createGame (player1, player2) {
                 activePlayer.addWin();
                 console.log(`Oh my god, ${activePlayer.name} has won this round !!!!`);
                 displayController.setWinnerState();
+                displayController.refreshPlayersScore();
                 endRound();
                 switchPlayerTurn();
             } else if (checkForTie()) {
@@ -144,37 +145,43 @@ const displayController = (function () {
     const playerTwoContainer = document.querySelector(".player-two");
     const formOne = document.querySelector(".player-one form");
     const formTwo = document.querySelector(".player-two form");
+    const playerOneTitle = document.querySelector(".player-one h2");
+    const playerTwoTitle = document.querySelector(".player-two h2");
 
     formOne.addEventListener("submit", (e) => {
         e.preventDefault();
         const formOneData = new FormData(e.target);
         const playerOneName = formOneData.get("player-one-name");
-        const playerOneTitle = document.querySelector(".player-one h2");
         playerOneTitle.textContent = playerOneName;
         playerOneContainer.removeChild(formOne);
-        const scoreDiv = document.createElement("div");
-        scoreDiv.setAttribute("class", "player-one-score");
-        scoreDiv.textContent = "Score = 0";
-        playerOneTitle.after(scoreDiv);
     });
 
     formTwo.addEventListener("submit", (e) => {
         e.preventDefault();
         const formTwoData = new FormData(e.target);
         const playerTwoName = formTwoData.get("player-two-name");
-        const playerTwoTitle = document.querySelector(".player-two h2");
         playerTwoTitle.textContent = playerTwoName;
         playerTwoContainer.removeChild(formTwo);
-        const scoreDiv = document.createElement("div");
-        scoreDiv.setAttribute("class", "player-two-score");
-        scoreDiv.textContent = "Score = 0";
-        playerTwoTitle.after(scoreDiv);
     });
 
-    return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState};
+    const startRoundBtn = document.querySelector(".start-round");
+    startRoundBtn.addEventListener("click", ()=>{game.startRound()})
+
+    const playerOneScoreDiv = document.querySelector(".player-one-score");
+    const playerTwoScoreDiv = document.querySelector(".player-two-score");
+
+    const refreshPlayersScore = () => {
+        const playerOneCurrentScore = playerOne.getScore();
+        const playerTwoCurrentScore = playerTwo.getScore();
+        playerOneScoreDiv.textContent = `Score = ${playerOneCurrentScore}`;
+        playerTwoScoreDiv.textContent = `Score = ${playerTwoCurrentScore}`;
+    };
+
+
+    return {showGameboard, cleanGameboard, setWinnerState, removeWinnerState, refreshPlayersScore};
 })();
 
 
-const me = createPlayer("Ulysse", "O");
-const ai = createPlayer("AI", "X");
-const game = createGame(me, ai);
+const playerOne = createPlayer("Ulysse", "O");
+const playerTwo = createPlayer("AI", "X");
+const game = createGame(playerOne, playerTwo);
