@@ -21,6 +21,7 @@ function createPlayer (name, token) {
 function createGame (player1, player2) {
     const players = [player1, player2];
     let activePlayer = players[0];
+    let inARound = false;
 
     const getActivePlayer = () => activePlayer;
 
@@ -37,10 +38,11 @@ function createGame (player1, player2) {
                 activePlayer.addWin();
                 console.log(`Oh my god, ${activePlayer.name} has won this round !!!!`);
                 displayController.setWinnerState();
+                endRound();
                 switchPlayerTurn();
             } else if (checkForTie()) {
                 console.log("Well it's a tie I guess");
-                gameboard.clean();
+                endRound();
                 switchPlayerTurn();
             } else {
                 switchPlayerTurn();
@@ -51,8 +53,17 @@ function createGame (player1, player2) {
     };
 
     const startRound = () => {
+        gameboard.clean();
+        inARound = true;
         displayController.showGameboard()
     };
+
+    const isInRound = () => inARound;
+
+    const endRound = () => {
+        inARound = false;
+        displayController.showGameboard();
+    }
 
     const checkForWin = () => {
         const currentBoard = gameboard.show();
@@ -83,7 +94,14 @@ function createGame (player1, player2) {
         return true;
     };
 
-    return {getActivePlayer, switchPlayerTurn, play, checkForWin, checkForTie, startRound}
+    return {getActivePlayer,
+        switchPlayerTurn,
+        play,
+        checkForWin,
+        checkForTie,
+        startRound,
+        isInRound,
+        endRound}
 };
 
 
@@ -98,10 +116,12 @@ const displayController = (function () {
             if (typeof(cell) !== "number") {
                 cellToDisplay.textContent = cell;
             };
-            cellToDisplay.addEventListener("click", () =>{
-                game.play(cell);
-                showGameboard();
-            });
+            if (game.isInRound()){
+                cellToDisplay.addEventListener("click", () =>{
+                    game.play(cell);
+                    showGameboard();
+                });
+            }
             gameboardDiv.appendChild(cellToDisplay);
         };
     };
