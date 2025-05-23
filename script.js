@@ -40,14 +40,11 @@ function createGame (player1, player2) {
                 displayController.setWinnerState();
                 displayController.refreshPlayersScore();
                 endRound();
-                switchPlayerTurn();
             } else if (checkForTie()) {
                 console.log("Well it's a tie I guess");
                 endRound();
-                switchPlayerTurn();
-            } else {
-                switchPlayerTurn();
             };
+            switchPlayerTurn();
         } else {
             console.log("Hey that spot is taken friend");
         }
